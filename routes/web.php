@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ProjectController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -17,4 +18,14 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+Route::get('/projects', [ProjectController::class, 'index']);
+// route to specific id
+Route::get('/projects/{project}', [ProjectController::class, 'show']);
+
+Route::post('/projects', [ProjectController::class, 'store'])->middleware('auth');
+
+Route::get('/phpinfo', function () {
+    phpinfo();
+});
+
+require __DIR__ . '/auth.php';

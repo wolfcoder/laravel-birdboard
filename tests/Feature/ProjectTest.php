@@ -14,9 +14,21 @@ class ProjectTest extends TestCase
     // RefreshDatabase
     use WithFaker;
 
+    // Middle ware test
+    // a test --filter test_only_authenticated_user_can_create_projects
+    public function test_only_authenticated_user_can_create_projects()
+    {
+        $attributes = Project::factory()->raw();
+        $this->post('/projects', $attributes)->assertRedirect('login');
+    }
+
+
     public function test_user_can_create_a_project(): void
     {
         $this->withoutExceptionHandling();
+
+        // required auth user
+        $this->actingAs(User::factory()->create());
 
         // create attributes or data to send
         $attributes = [
@@ -51,6 +63,9 @@ class ProjectTest extends TestCase
     // php artisan test --filter test_a_project_requires_a_title
     public function test_a_project_requires_a_title()
     {
+        // required auth user
+        $this->actingAs(User::factory()->create());
+
         // factory raw return json,
         // $attributes = Project::factory()->make(['title' => ''])->toArray();
         $attributes = Project::factory()->raw(['title' => '']);
@@ -60,6 +75,10 @@ class ProjectTest extends TestCase
     // php artisan test --filter test_a_project_requires_a_description
     public function test_a_project_requires_a_description()
     {
+        // required auth user
+        $this->actingAs(User::factory()->create());
+
+
         $attributes = Project::factory()->raw(['description' => '']);
         $this->post('/projects', $attributes)->assertSessionHasErrors('description');
     }
@@ -67,13 +86,6 @@ class ProjectTest extends TestCase
     // a test --filter test_a_project_requires_an_owner
     public function test_a_project_requires_an_owner()
     {
-        // $this->withoutExceptionHandling(); //? return The owner id field is required.
-
-        $user = User::factory()->create();
-
-        // Log out the user
-        $this->actingAs($user);
-
         $attributes = Project::factory()->raw();
         $this->post('/projects', $attributes)->assertRedirect('login');
     }
