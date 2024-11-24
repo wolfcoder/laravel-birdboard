@@ -6,6 +6,7 @@ use App\Models\Project;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Facades\Auth;
 use Tests\TestCase;
 
 class ProjectTest extends TestCase
@@ -14,15 +15,24 @@ class ProjectTest extends TestCase
     // RefreshDatabase
     use WithFaker;
 
-    // Middle ware test
-    // a test --filter test_only_authenticated_user_can_create_projects
-    public function test_only_authenticated_user_can_create_projects()
+    public function guests_cannot_create_projects()
     {
         $attributes = Project::factory()->raw();
         $this->post('/projects', $attributes)->assertRedirect('login');
     }
 
-    // a test --filter test_user_can_create_a_projec
+
+    public function test_guests_cannot_view_projects()
+    {
+        $this->get('/projects')->assertRedirect('login');
+    }
+
+    public function test_guests_cannot_view_a_single_projects()
+    {
+        $project = Project::factory()->create();
+        $this->get($project->path())->assertRedirect('login');
+    }
+
     public function test_user_can_create_a_project(): void
     {
         $this->withoutExceptionHandling();
@@ -46,21 +56,28 @@ class ProjectTest extends TestCase
         $this->get('/projects')->assertSee($attributes['title']);
     }
 
-    // a = alias of php artisan. a test --filter test_a_user_can_view_a_project
-    public function test_a_user_can_view_a_project()
+    public function test_a_user_can_view_their_project(): void
     {
+        $this->be(User::factory()->create());
+
         $this->withoutExceptionHandling();
 
-        // factory create it written to database
-        $project = Project::factory()->create();
-        // dd($project->id);
+        $project = Project::factory()->create(['owner_id' => Auth::user()->id]);
 
         $this->get($project->path())
             ->assertSee($project->title)
             ->assertSee($project->description);
     }
 
-    // php artisan test --filter test_a_project_requires_a_title
+    public function test_an_authenticated_user_cannot_view_the_projects_of_others()
+    {
+        $this->be(User::factory()->create());
+
+        $project = Project::factory()->create();
+
+        $this->get($project->path())->assertStatus(403);
+    }
+
     public function test_a_project_requires_a_title()
     {
         // required auth user
