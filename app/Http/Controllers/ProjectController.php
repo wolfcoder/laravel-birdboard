@@ -3,8 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Project;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Config; // Add this line
+use Illuminate\Support\Facades\Auth;
 
 class ProjectController extends Controller
 {
@@ -36,7 +35,8 @@ class ProjectController extends Controller
         // Set the owner_id to the authenticated user's ID
         // $attributes['owner_id'] = auth()->user()->id;
 
-        auth()->user()->projects()->create($attributes);
+        // Create a new project for the authenticated user
+        Auth::user()->projects()->create($attributes);
 
         // redirect
 

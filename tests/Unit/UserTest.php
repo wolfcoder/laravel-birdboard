@@ -13,12 +13,11 @@ class UserTest extends TestCase
     // a test --filter test_a_user_has_project
     public function test_a_user_has_project(): void
     {
-        $this->assertTrue(true);
+        // $this->assertTrue(true);
 
         // TODO: Implement test_a_user_has_project() method.
-        // $user = User::factory()->create();
+        $user = User::factory()->create();
 
-
-        // $this->assertInstanceOf('Illuminate\Database\Eloquent\Collection', $user->projects);
+        $this->assertInstanceOf('Illuminate\Database\Eloquent\Collection', $user->projects);
     }
 }
