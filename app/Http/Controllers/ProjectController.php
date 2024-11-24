@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Project;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ProjectController extends Controller
 {
+
+
     public function index()
     {
         $projects = Project::all();
@@ -22,13 +24,20 @@ class ProjectController extends Controller
 
     public function store()
     {
+
         // validate
-        $attributes =  request()->validate(['title' => 'required', 'description' => 'required']);
+        $attributes =  request()->validate([
+            'title' => 'required',
+            'description' => 'required',
 
-        // persist
-        Project::create($attributes);
+        ]);
 
-        // dd($response);
+        // Set the owner_id to the authenticated user's ID
+        // $attributes['owner_id'] = auth()->user()->id;
+
+        // Create a new project for the authenticated user
+        Auth::user()->projects()->create($attributes);
+
         // redirect
 
         return redirect('/projects');
