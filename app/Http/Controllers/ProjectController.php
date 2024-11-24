@@ -11,14 +11,29 @@ class ProjectController extends Controller
 
     public function index()
     {
-        $projects = Project::all();
+        $projects =  Auth::user()->projects;
 
         return view('projects.index', compact('projects'));
     }
 
     public function show(Project $project)
     {
-        // $project = Project::findOrFail(request('project'));
+        // if (Auth::user()->id !== $project->owner_id) {
+        //     abort(403);
+        // }
+
+        // Alternatif
+
+        // if (auth()->id() !== $project->owner_id) {
+        //     abort(403);
+        // }
+
+        // isNot
+
+        if (auth()->user()->isNot($project->owner)) {
+            abort(403);
+        }
+
         return view('projects.show', compact('project'));
     }
 
@@ -31,9 +46,6 @@ class ProjectController extends Controller
             'description' => 'required',
 
         ]);
-
-        // Set the owner_id to the authenticated user's ID
-        // $attributes['owner_id'] = auth()->user()->id;
 
         // Create a new project for the authenticated user
         Auth::user()->projects()->create($attributes);
