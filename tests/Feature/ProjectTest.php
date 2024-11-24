@@ -11,7 +11,7 @@ class ProjectTest extends TestCase
 {
 
     // RefreshDatabase
-    use WithFaker, RefreshDatabase;
+    use WithFaker;
 
     public function test_user_can_create_a_project(): void
     {
@@ -33,10 +33,24 @@ class ProjectTest extends TestCase
         $this->get('/projects')->assertSee($attributes['title']);
     }
 
+    // a = alias of php artisan. a test --filter test_a_user_can_view_a_project
+    public function test_a_user_can_view_a_project()
+    {
+        $this->withoutExceptionHandling();
+
+        // factory create it written to database
+        $project = Project::factory()->create();
+        // dd($project->id);
+
+        $this->get($project->path())
+            ->assertSee($project->title)
+            ->assertSee($project->description);
+    }
+
     // php artisan test --filter test_a_project_requires_a_title
     public function test_a_project_requires_a_title()
     {
-        // factory attribute
+        // factory raw return json,
         // $attributes = Project::factory()->make(['title' => ''])->toArray();
         $attributes = Project::factory()->raw(['title' => '']);
         $this->post('/projects', $attributes)->assertSessionHasErrors('title');

@@ -10,6 +10,8 @@ Route::get('/', function () {
 });
 
 Route::get('/projects', [ProjectController::class, 'index']);
+// route to specific id
+Route::get('/projects/{project}', [ProjectController::class, 'show']);
 
 Route::post('/projects', [ProjectController::class, 'store']);
 
