@@ -66,6 +66,7 @@ class ProjectTest extends TestCase
         // required auth user
         $this->actingAs(User::factory()->create());
 
+
         // factory raw return json,
         // $attributes = Project::factory()->make(['title' => ''])->toArray();
         $attributes = Project::factory()->raw(['title' => '']);
@@ -86,7 +87,7 @@ class ProjectTest extends TestCase
     // a test --filter test_a_project_requires_an_owner
     public function test_a_project_requires_an_owner()
     {
-        $attributes = Project::factory()->raw();
+        $attributes = Project::factory()->raw(['owner_id' => null]);
         $this->post('/projects', $attributes)->assertRedirect('login');
     }
 }
