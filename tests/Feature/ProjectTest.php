@@ -66,7 +66,6 @@ class ProjectTest extends TestCase
         // required auth user
         $this->actingAs(User::factory()->create());
 
-
         // factory raw return json,
         // $attributes = Project::factory()->make(['title' => ''])->toArray();
         $attributes = Project::factory()->raw(['title' => '']);
