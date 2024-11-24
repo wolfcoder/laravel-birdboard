@@ -8,8 +8,14 @@ importers:
 
   .:
     devDependencies:
+      '@tailwindcss/forms':
+        specifier: ^0.5.2
+        version: 0.5.9(tailwindcss@3.4.15)
+      alpinejs:
+        specifier: ^3.4.2
+        version: 3.14.3
       autoprefixer:
-        specifier: ^10.4.20
+        specifier: ^10.4.2
         version: 10.4.20(postcss@8.4.49)
       axios:
         specifier: ^1.7.4
@@ -21,10 +27,10 @@ importers:
         specifier: ^1.0
         version: 1.0.6(vite@5.4.11)
       postcss:
-        specifier: ^8.4.47
+        specifier: ^8.4.31
         version: 8.4.49
       tailwindcss:
-        specifier: ^3.4.13
+        specifier: ^3.1.0
         version: 3.4.15
       vite:
         specifier: ^5.0
@@ -302,8 +308,22 @@ packages:
     cpu: [x64]
     os: [win32]
 
+  '@tailwindcss/forms@0.5.9':
+    resolution: {integrity: sha512-tM4XVr2+UVTxXJzey9Twx48c1gcxFStqn1pQz0tRsX8o3DvxhN5oY5pvyAbUx7VTaZxpej4Zzvc6h+1RJBzpIg==}
+    peerDependencies:
+      tailwindcss: '>=3.0.0 || >= 3.0.0-alpha.1 || >= 4.0.0-alpha.20'
+
   '@types/estree@1.0.6':
     resolution: {integrity: sha512-AYnb1nQyY49te+VRAVgmzfcgjYS91mY5P0TKUDCLEM+gNnA+3T6rWITXRLYCpahpqSQbN5cE+gHpnPyXjHWxcw==}
+
+  '@vue/reactivity@3.1.5':
+    resolution: {integrity: sha512-1tdfLmNjWG6t/CsPldh+foumYFo3cpyCHgBYQ34ylaMsJ+SNHQ1kApMIa8jN+i593zQuaw3AdWH0nJTARzCFhg==}
+
+  '@vue/shared@3.1.5':
+    resolution: {integrity: sha512-oJ4F3TnvpXaQwZJNF3ZK+kLPHKarDmJjJ6jyzVNDKH9md1dptjC7lWR//jrGuLdek/U6iltWxqAnYOu8gCiOvA==}
+
+  alpinejs@3.14.3:
+    resolution: {integrity: sha512-cL8JBEDAm4UeVjTN5QnFl8QgMGUwxFn1GvQvu3RtfAHUrAPRahGihrsWpKnEK9L0QMqsAPk/R8MylMWKHaK33A==}
 
   ansi-regex@5.0.1:
     resolution: {integrity: sha512-quJQXlTSUGL2LH9SUXo8VwsY4soanhgo6LNSm84E1LBcE8s3O0wpdiRzyR9z/ZZJMlMWv37qOOb9pdJlMUEKFQ==}
@@ -578,6 +598,10 @@ packages:
   mime-types@2.1.35:
     resolution: {integrity: sha512-ZDY+bPm5zTTF+YpCrAU9nK0UgICYPT0QtT1NZWFv4s++TNkcgVaT0g6+4R2uI4MjQjzysHB1zxuWL50hzaeXiw==}
     engines: {node: '>= 0.6'}
+
+  mini-svg-data-uri@1.4.4:
+    resolution: {integrity: sha512-r9deDe9p5FJUPZAk3A59wGH7Ii9YrjjWw0jmw/liSbHl2CHiyXj6FcDXDu2K3TjVAXqiJdaw3xxwlZZr9E6nHg==}
+    hasBin: true
 
   minimatch@9.0.5:
     resolution: {integrity: sha512-G6T0ZX48xgozx7587koeX9Ys2NYy6Gmv//P89sEte9V9whIapMNF4idKxnW2QtCcLiTWlb/wfCabAtAFWhhBow==}
@@ -1039,7 +1063,22 @@ snapshots:
   '@rollup/rollup-win32-x64-msvc@4.27.4':
     optional: true
 
+  '@tailwindcss/forms@0.5.9(tailwindcss@3.4.15)':
+    dependencies:
+      mini-svg-data-uri: 1.4.4
+      tailwindcss: 3.4.15
+
   '@types/estree@1.0.6': {}
+
+  '@vue/reactivity@3.1.5':
+    dependencies:
+      '@vue/shared': 3.1.5
+
+  '@vue/shared@3.1.5': {}
+
+  alpinejs@3.14.3:
+    dependencies:
+      '@vue/reactivity': 3.1.5
 
   ansi-regex@5.0.1: {}
 
@@ -1315,6 +1354,8 @@ snapshots:
   mime-types@2.1.35:
     dependencies:
       mime-db: 1.52.0
+
+  mini-svg-data-uri@1.4.4: {}
 
   minimatch@9.0.5:
     dependencies:
